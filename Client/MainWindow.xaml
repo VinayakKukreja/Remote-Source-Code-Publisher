@@ -1,0 +1,325 @@
+﻿<!-- 
+////////////////////////////////////////////////////////////////////////////////
+//  MainWindow.xaml - GUI design to convert and publish files                 //
+//                    matching specific patterns and regex                    //
+                      present at a remote server.                             //
+//  ver 1.1																	  //
+//  Language:      .NET, XAML, Visual Studio 2017					          //
+//  Platform:      Dell XPS, Windows 10     								  //
+//  Application:   WPF application for CSE687 - OOD Project 3				  //
+//  Author:		   Vinayak Kukreja, Syracuse University						  //
+////////////////////////////////////////////////////////////////////////////////
+/*
+*  Package Operations:
+* =======================
+*  This package defines a WPF application that provides the GUI design to convert
+*  and publish files matching specific patterns and regex present at a remote server.
+*
+*  Required Files:
+* =======================
+*  MainWindow.xaml MainWindow.xaml.cs
+*
+*  Maintainence History:
+* =======================
+*  ver 1.0 - 10 April 2019
+*  - Author
+*  ver 1.1 - 01 May 2019
+*  - Author
+*/   
+-->
+
+
+<!-- Root Window Element Begins  -->
+<Window x:Class="CodePublisherClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CodePublisherClient"
+        mc:Ignorable="d"
+        Title="Remote Code Page Management" Height="450" Width="800" Loaded="MainWindow_OnLoaded">
+
+    <!-- Start of Grid Layout-1  -->
+    <Grid>
+
+        <!-- Providing with Grid Layout-1 Row Definitions  -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!-- Creating Menu-Items in Grid Layout-1 Row-0  -->
+        <Menu Grid.Row="0">
+
+            <!-- File-Menu-Item  -->
+            <MenuItem Header="_File" MouseEnter="FileMenuItem" MouseLeave="NewMouseLeave" GotFocus="FileItemFocus">
+
+                <!-- Child: Publish-Menu-Item  -->
+                <MenuItem Name="menuPublish" Header="_Publish" Click="BtnPublish_OnClick" MouseEnter="PublishEnter" MouseLeave="NewMouseLeave" GotFocus="PublishEnterFocus" IsEnabled="False"
+                          ToolTipService.ToolTip="Single-Left-Click to analyze dependencies and convert files to html remotely&#x0a;Note: The process may take time in conversion if the data set is large"></MenuItem>
+                <!-- Child: Horizontal Separator  -->
+                <Separator HorizontalAlignment="Stretch"></Separator>
+                <!-- Child: Exit-Menu-Item  -->
+                <MenuItem Header="_Exit" Click="MenuItem_OnClick" MouseEnter="ExitEnter" MouseLeave="NewMouseLeave" GotFocus="ExitEnterFocus"
+                          ToolTipService.ToolTip="Single-Left-Click will exit the application"></MenuItem>
+
+                <!-- File-Menu-Item Closes  -->
+            </MenuItem>
+
+            <!-- Info-Menu-Item  -->
+            <MenuItem Header="Info" MouseEnter="InfoEnter" MouseLeave="NewMouseLeave" GotFocus="InfoEnterFocus">
+
+                <!-- Child: Functionality-Menu-Item  -->
+                <MenuItem Header="Functionality" Click="MenuItemFunctionality_OnClick" MouseEnter="FuncEnter" MouseLeave="NewMouseLeave" GotFocus="FuncEnterFocus"
+                          ToolTipService.ToolTip="Single-Left-Click to show software functionality"></MenuItem>
+
+                <!-- Info-Menu-Item Closes  -->
+            </MenuItem>
+
+            <!-- End of Menu-Items in Grid Layout-1 Row-0  -->
+        </Menu>
+
+        <!-- TabControl Begins  -->
+        <TabControl Name="tabCtrl" Grid.Row="1">
+
+            <!-- Navigation Tab Begins  -->
+            <TabItem Header="Navigation" Name="NavigationTab" GotFocus="NavigationTab_OnGotFocus"
+                     ToolTipService.ToolTip="This tab is used to navigate to a directory and provide with information about&#x0a;recursive search, patterns and regex and is used to convert desired files">
+
+                <!-- Start of Grid Layout-2  -->
+                <Grid>
+
+                    <!-- Providing with Grid Layout-2 Row Definitions  -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <!-- Providing with Grid Layout-2 Column Definitions  -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="69*"></ColumnDefinition>
+                        <ColumnDefinition Width="458*"/>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+
+                    <!-- Designing Row-0 -->
+
+                    <!-- Path Label and Text Box  -->
+                    <Label Grid.Row="0" Grid.Column="0" Content="Path:" ToolTipService.ToolTip="Path" MouseEnter="PathEnter" MouseLeave="NewMouseLeave" GotFocus="PathEnterFocus"></Label>
+                    <TextBox Name="txtPath" Grid.Row="0" Grid.Column="1" Margin="5" IsReadOnly="True"
+                             MouseEnter="PathEnter" MouseLeave="NewMouseLeave" GotFocus="PathEnterFocus"
+                             ToolTipService.ToolTip="This is read-only!!" Grid.ColumnSpan="2"></TextBox>
+                    <!-- Sub-Directories Label and Check Box  -->
+                    <Label Grid.Row="0" Grid.Column="3" Content="Sub-Directories:" MouseEnter="SubDirEnter" MouseLeave="NewMouseLeave" GotFocus="SubDirEnterFocus"
+                           ToolTipService.ToolTip="Tick the checkbox to enable recursive search&#x0a;for files matching patterns and regex"></Label>
+                    <CheckBox Name="cbRecurse" Grid.Row="0" Grid.Column="4" IsChecked="True" Margin="7" MouseEnter="CbRecurse_OnMouseEnter" MouseLeave="NewMouseLeave" 
+                              GotFocus="SubDirEnterFocus" Click="CbRecurse_OnClick"
+                              ToolTipService.ToolTip="Tick the checkbox to enable recursive search&#x0a;for files matching patterns and regex"></CheckBox>
+                    <!-- Connect Button  -->
+                    <Button Name="btnConnect" Grid.Row="0" Grid.Column="5" Margin="5" Content="Connect" Width="70" Click="BtnConnect_OnClick" 
+                            MouseEnter="ConnectEnter" MouseLeave="NewMouseLeave" GotFocus="ConnectEnterFocus"
+                            ToolTipService.ToolTip="Single-Left-Click to connect client and server"></Button>
+
+                    <!-- End of Row-0 Design  -->
+
+
+                    <!-- Designing Row-1 -->
+
+                    <!-- Separator  -->
+                    <Separator Grid.Row="1" Grid.ColumnSpan="6"></Separator>
+
+                    <!-- End of Row-1 Design  -->
+
+
+                    <!-- Designing Row-2 -->
+
+                    <!-- Navigation List Label  -->
+                    <Label Grid.Row="2" Grid.ColumnSpan="6" Content="Navigation List:"
+                           GotFocus="NavigationTab_OnGotFocus" MouseEnter="NavigationTab_OnMouseEnter" MouseLeave="NewMouseLeave"></Label>
+
+                    <!-- End of Row-2 Design  -->
+
+
+                    <!-- Designing Row-3 -->
+
+                    <!-- Navigation List Box  -->
+                    <ListBox Name="lstFiles" Grid.Row="3" Grid.ColumnSpan="6" Margin="5" MouseDoubleClick="LstFiles_OnMouseDoubleClick" 
+                             ToolTipService.ToolTip="Double-Left-Click to enter a directory"
+                             MouseEnter="LstFiles_OnMouseEnter" MouseLeave="NewMouseLeave" GotFocus="LstFiles_OnGotFocus"></ListBox>
+
+                    <!-- End of Row-3 Design  -->
+
+
+                    <!-- Designing Row-4 -->
+
+                    <!-- Separator  -->
+                    <Separator Grid.Row="1" Grid.ColumnSpan="6"></Separator>
+
+                    <!-- End of Row-4 Design  -->
+
+
+                    <!-- Designing Row-5 -->
+
+                    <!-- Patterns Label and Text Box  -->
+                    <Label Grid.Row="5" Grid.Column="0" Content="Patterns:" ToolTipService.ToolTip="Enter desired patterns in text box&#x0a;Press enter to finalize your decision"
+                           MouseEnter="PatternsEnter" MouseLeave="NewMouseLeave" GotFocus="PatternsEnterFocus"></Label>
+                    <TextBox Name="txtPatterns" Grid.Row="5" Grid.Column="1" Margin="5" KeyUp="TxtPatterns_OnKeyUp" 
+                             ToolTipService.ToolTip="Enter desired patterns here&#x0a;Press enter to finalize your decision"
+                             MouseEnter="TxtPatterns_OnMouseEnter" MouseLeave="NewMouseLeave" GotFocus="TxtPatterns_OnGotFocus" MouseUp="TxtPatterns_OnMouseUp" Grid.ColumnSpan="2"></TextBox>
+                    <!-- Regex Label and Text Box  -->
+                    <Label Grid.Row="5" Grid.Column="3" Content="Regex:" ToolTipService.ToolTip="Enter desired regex in text box&#x0a;Press enter to finalize your decision"
+                           MouseEnter="Regex_OnMouseEnter" MouseLeave="NewMouseLeave" GotFocus="Regex_OnGotFocus"></Label>
+                    <TextBox Name="txtRegex" Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2" Margin="5" KeyUp="TxtRegex_OnKeyUp" 
+                             ToolTipService.ToolTip="Enter desired regex here&#x0a;Press enter to finalize your decision"
+                             MouseEnter="TxtRegex_OnMouseEnter" MouseLeave="NewMouseLeave" GotFocus="TxtRegex_OnGotFocus" MouseUp="TxtRegex_OnMouseUp"></TextBox>
+
+                    <!-- End of Row-5 Design  -->
+
+
+                    <!-- Designing Row-6 -->
+
+                    <!-- Separator -->
+                    <Separator Grid.Row="6" Grid.ColumnSpan="6"></Separator>
+
+                    <!-- End of Row-6 Design  -->
+
+
+                    <!-- Designing Row-7 -->
+
+                    <!-- Publish Button  -->
+                    <Button Name="btnPublish" Grid.Row="7" Grid.ColumnSpan="6" Margin="5" Content="Publish" Click="BtnPublish_OnClick"
+                            MouseEnter="PublishEnter" MouseLeave="NewMouseLeave" GotFocus="PublishEnterFocus" IsEnabled="False"
+                            ToolTipService.ToolTip="Single-Left-Click to analyze dependencies and convert files to html remotely&#x0a;Note: The process may take time in conversion if the data set is large"></Button>
+
+                    <!-- End of Row-7 Design  -->
+
+                    <!-- End of Grid Layout-2  -->
+                </Grid>
+
+                <!-- Navigation Tab Ends  -->
+            </TabItem>
+
+            <!-- Converted Files Tab Begins  -->
+            <TabItem Header="Converted Files" Name="ConvertedList" GotFocus="ConvertedList_OnGotFocus"
+                     ToolTipService.ToolTip="This tab shows the converted files and enables to pop them in browser" IsEnabled="False">
+
+                <!-- Start of Grid Layout-3  -->
+                <Grid>
+
+                    <!-- Providing with Grid Layout-3 Row Definitions  -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <!-- Providing with Grid Layout-3 Column Definitions  -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Converted Files List Label and Textbox -->
+                    <Label Grid.Row="0" Grid.Column="0" Content="Converted Files List:" Margin="6"></Label>
+                    <TextBox Name="lstConvert" Grid.Row="0" Grid.Column="1" Margin="5" IsReadOnly="True" Padding="4"
+                             MouseEnter="convTextEnter" MouseLeave="NewMouseLeave" GotFocus="convTextEnterFocus"
+                             ToolTipService.ToolTip="Selected converted file name"></TextBox>
+
+                    <!-- Download A File Button  -->
+                    <Button Name="downloadFileButton" Grid.Row="0" Grid.Column="2" Content="Download File" Margin="6" Padding="5" IsEnabled="false" Click="ButtonViewFiles_OnClick"
+                            MouseEnter="downFileEnter" MouseLeave="NewMouseLeave" GotFocus="downFileEnterFocus"
+                            ToolTipService.ToolTip="Single-Left-Click to download selected file from server"></Button>
+
+                    <!-- Popup A File Button  -->
+                    <Button Name="popUpButton" Grid.Row="0" Grid.Column="3" Content="Pop Up File" Margin="6" Padding="5" Click="ButtonPopUp_OnClick" IsEnabled="False"
+                            MouseEnter="popAFileEnter" MouseLeave="NewMouseLeave" GotFocus="popAFileEnterFocus"
+                            ToolTipService.ToolTip="Single-Left-Click to pop up selected file in default browser"></Button>
+
+                    <!-- Download All Files Button  -->
+                    <Button Name="downAllFilesButton" Grid.Row="0" Grid.Column="4" Content="Download All Files" Margin="6" Padding="5" Click="AllDisplayPop" IsEnabled="False"
+                            MouseEnter="downAllFileEnter" MouseLeave="NewMouseLeave" GotFocus="downAllFileEnterFocus"
+                            ToolTipService.ToolTip="Single-Left-Click to download all files mentioned in listbox&#x0a;Note: The process may take time in conversion if the data set is large"></Button>
+
+                    <!-- Pop Up All Files Button  -->
+                    <Button Name="popAllUpButton" Grid.Row="0" Grid.Column="5" Content="Pop Up All Files" Margin="6" Padding="5" Click="PopAllUpButton_OnClick" IsEnabled="False"
+                            MouseEnter="AllDisplayPopEnter" MouseLeave="NewMouseLeave" GotFocus="AllDisplayPopEnterFocus"
+                            ToolTipService.ToolTip="Single-Left-Click to display all of the converted files one by one&#x0a;Note: You need to close one file displayed in&#x0a;the browser to view the next files
+                            &#x0a;Also, if the default browser is already opened,&#x0a;then all of the files will pop up simultaneously"></Button>
+
+                    <!-- Converted Files List Box  -->
+                    <ListBox Name="lstConverted" Grid.Row="1" Margin="5" MouseLeftButtonUp="LstConverted_OnMouseLeftButtonUp"
+                             SelectionMode="Single" Grid.ColumnSpan="6"
+                             ToolTipService.ToolTip="Single-Left-Click to select a file"></ListBox>
+
+                    <!-- NOTE Label and Textbox -->
+                    <Label Grid.Row="2" Grid.Column="0" Content="NOTE:" Margin="6,6,83,6"
+                           MouseEnter="noteEnter" MouseLeave="NewMouseLeave" GotFocus="noteEnterFocus"
+                           ToolTipService.ToolTip="Important information is displayed here"></Label>
+                    <TextBox Name="lstNote" Grid.Row="2"  Grid.ColumnSpan="6" Margin="53,6,6,6" IsReadOnly="True" Padding="4"
+                             MouseEnter="noteEnter" MouseLeave="NewMouseLeave" GotFocus="noteEnterFocus"
+                             ToolTipService.ToolTip="Important information is displayed here"/>
+
+                    <!-- End of Grid Layout-3  -->
+                </Grid>
+
+                <!-- Converted Files Tab Ends  -->
+            </TabItem>
+
+            <!-- TabControl Ends  -->
+        </TabControl>
+
+
+        <!-- Start of a grid for row 2  -->
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <!-- Client Port Label and Textbox -->
+            <Label Grid.Column="0" Content="Client URL:" MouseEnter="clientEnter" MouseLeave="NewMouseLeave" GotFocus="clientEnterFocus"
+                   ToolTipService.ToolTip="This is the Client URL currently being used"></Label>
+            <TextBox Name="txtClientPort" Grid.Column="1" Margin="5" IsReadOnly="True"
+                     MouseEnter="clientEnter" MouseLeave="NewMouseLeave" GotFocus="clientEnterFocus"
+                     ToolTipService.ToolTip="This is the Client URL currently being used"></TextBox>
+
+            <!-- Server Port Label and Textbox -->
+            <Label Grid.Column="2" Content="Server URL:" MouseEnter="serverEnter" MouseLeave="NewMouseLeave" GotFocus="serverEnterFocus"
+                   ToolTipService.ToolTip="This is the Server URL currently being used"></Label>
+            <TextBox Name="txtServerPort" Grid.Column="3" Margin="5" IsReadOnly="True"
+                     MouseEnter="serverEnter" MouseLeave="NewMouseLeave" GotFocus="serverEnterFocus"
+                     ToolTipService.ToolTip="This is the Server URL currently being used"></TextBox>
+
+        <!-- End of grid for row 2  -->
+        </Grid>
+
+        <!-- Status Bar  -->
+        <StatusBar Grid.Row="3">
+            <TextBlock Name="txtProgress" Text="Ready"></TextBlock>
+        </StatusBar>
+
+        <!-- End of Grid Layout-1  -->
+    </Grid>
+
+    <!-- Root Window Element Ends  -->
+</Window>

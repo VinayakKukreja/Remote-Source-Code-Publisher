@@ -1,0 +1,214 @@
+<DOCTYPE !HTML>
+<html>
+  <head>
+    <Title>LoggerCodePublisher.cpp</Title>
+	   <meta charset="UTF-8"/>
+    <style>
+      body {
+        padding:15px 40px;
+        font-family: Consolas;
+        font-size: 1.25em;
+        font-weight: normal;
+      }
+      </style>
+		 <script src="../script.js"></script>
+		 <link rel="stylesheet" type="text/css" href="../Bootstrap-4/css/bootstrap.min.css" />
+		 <link rel="stylesheet" type="text/css" href="../Bootstrap-4/css/bootstrap-theme.min.css" />
+		 <link href="../style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+      <div class="absolute">           <button class="btn btn-danger all-button" onclick="toggleVisibility('Comments');">Comments</button>           <button class="btn btn-danger all-button" onclick="toggleVisibility('Functions');">Functions</button>           <button class="btn btn-danger all-button" onclick="toggleVisibility('Classes');">Classes</button>		</div><br /><div>    <h1><u>Dependencies:</u> <br /><br />
+      <a href="LoggerCodePublisher.h.html"><h3><i>LoggerCodePublisher.h</i></h3></a>    
+      <a href="StringUtilities.h.html"><h3><i>StringUtilities.h</i></h3></a>    
+    </h1></div><br /><br />    <pre>
+<button class="btn danger singleButton" onclick='trigger("div-171", this);' value="-">-</button><div style="display:inline;" id="div-171" class="Comments">/////////////////////////////////////////////////////////////////////</div>
+<button class="btn danger singleButton" onclick='trigger("div-172", this);' value="-">-</button><div style="display:inline;" id="div-172" class="Comments">// Logger.cpp - log text messages to std::ostream                  //</div>
+<button class="btn danger singleButton" onclick='trigger("div-173", this);' value="-">-</button><div style="display:inline;" id="div-173" class="Comments">// ver 1.0                                                         //</div>
+<button class="btn danger singleButton" onclick='trigger("div-174", this);' value="-">-</button><div style="display:inline;" id="div-174" class="Comments">//-----------------------------------------------------------------//</div>
+<button class="btn danger singleButton" onclick='trigger("div-175", this);' value="-">-</button><div style="display:inline;" id="div-175" class="Comments">// Jim Fawcett (c) copyright 2015                                  //</div>
+<button class="btn danger singleButton" onclick='trigger("div-176", this);' value="-">-</button><div style="display:inline;" id="div-176" class="Comments">// All rights granted provided this copyright notice is retained   //</div>
+<button class="btn danger singleButton" onclick='trigger("div-177", this);' value="-">-</button><div style="display:inline;" id="div-177" class="Comments">//-----------------------------------------------------------------//</div>
+<button class="btn danger singleButton" onclick='trigger("div-178", this);' value="-">-</button><div style="display:inline;" id="div-178" class="Comments">// Language:    C++, Visual Studio 2015                            //</div>
+<button class="btn danger singleButton" onclick='trigger("div-179", this);' value="-">-</button><div style="display:inline;" id="div-179" class="Comments">// Application: Several Projects, CSE687 - Object Oriented Design  //</div>
+<button class="btn danger singleButton" onclick='trigger("div-180", this);' value="-">-</button><div style="display:inline;" id="div-180" class="Comments">// Author:      Ammar Salman, Syracuse University                  //</div>
+<button class="btn danger singleButton" onclick='trigger("div-181", this);' value="-">-</button><div style="display:inline;" id="div-181" class="Comments">//              assalman@syr.edu                                   //</div>
+<button class="btn danger singleButton" onclick='trigger("div-182", this);' value="-">-</button><div style="display:inline;" id="div-182" class="Comments">// Source:      Jim Fawcett, Syracuse University, CST 4-187        //</div>
+<button class="btn danger singleButton" onclick='trigger("div-183", this);' value="-">-</button><div style="display:inline;" id="div-183" class="Comments">//              jfawcett@twcny.rr.com                              //</div>
+<button class="btn danger singleButton" onclick='trigger("div-184", this);' value="-">-</button><div style="display:inline;" id="div-184" class="Comments">/////////////////////////////////////////////////////////////////////</div>
+
+#include &lt;functional&gt;
+#include &lt;fstream&gt;
+#include "LoggerCodePublisher.h"
+#include &lt;windows.h&gt;
+#include "../StringUtilities/StringUtilities.h"
+
+using namespace Logging;
+
+<button class="btn danger singleButton" onclick='trigger("div-185", this);' value="-">-</button><div style="display:inline;" id="div-185" class="Comments">//----&lt; send text message to std::ostream &gt;--------------------------</div>
+
+void Logger::write(const std::string& msg)
+<button class="btn danger singleButton" onclick='trigger("div-186", this);' value="-">-</button><div style="display:inline;" id="div-186" class="Functions">{
+	if (_ThreadRunning)
+		_queue.enQ(msg);
+}</div>
+void Logger::title(const std::string& msg, char underline)
+<button class="btn danger singleButton" onclick='trigger("div-187", this);' value="-">-</button><div style="display:inline;" id="div-187" class="Functions">{
+	std::string temp = "\n  " + msg + "\n " + std::string(msg.size() + 2, underline);
+	write(temp);
+}</div>
+<button class="btn danger singleButton" onclick='trigger("div-188", this);' value="-">-</button><div style="display:inline;" id="div-188" class="Comments">//----&lt; attach logger to existing std::ostream &gt;---------------------</div>
+
+bool Logger::attach(std::ostream* pOut)
+<button class="btn danger singleButton" onclick='trigger("div-189", this);' value="-">-</button><div style="display:inline;" id="div-189" class="Functions">{
+	if (_ThreadRunning) return false;
+	_streams.push_back(pOut);
+	return true;
+}</div>
+
+<button class="btn danger singleButton" onclick='trigger("div-190", this);' value="-">-</button><div style="display:inline;" id="div-190" class="Comments">//-----&lt; detach existing logger to stop writing &gt;--------------------</div>
+bool Logger::detach(std::ostream * pOut)
+<button class="btn danger singleButton" onclick='trigger("div-191", this);' value="-">-</button><div style="display:inline;" id="div-191" class="Functions">{
+	if (_ThreadRunning) return false;
+	auto stream = std::find(_streams.begin(), _streams.end(), pOut);
+	if (stream != _streams.end())
+		_streams.erase(stream);
+	return true;
+}</div>
+<button class="btn danger singleButton" onclick='trigger("div-192", this);' value="-">-</button><div style="display:inline;" id="div-192" class="Comments">//----&lt; start logging &gt;----------------------------------------------</div>
+
+void Logger::start()
+<button class="btn danger singleButton" onclick='trigger("div-193", this);' value="-">-</button><div style="display:inline;" id="div-193" class="Functions">{
+	if (_ThreadRunning)
+		return;
+	_ThreadRunning = true;
+	std::function&lt;void()&gt; tp = [=]() {
+		while (true)
+		{
+			std::string msg = _queue.deQ();
+			if (msg == "quit")
+			{
+				_ThreadRunning = false;
+				break;
+			}
+			for (auto stream : _streams)
+				*stream &lt;&lt; msg;
+		}
+	};
+	std::thread thr(tp);
+	thr.detach();
+}</div>
+
+<button class="btn danger singleButton" onclick='trigger("div-194", this);' value="-">-</button><div style="display:inline;" id="div-194" class="Comments">//----&lt; has logger been started? &gt;-----------------------------------</div>
+
+bool Logger::running()
+<button class="btn danger singleButton" onclick='trigger("div-195", this);' value="-">-</button><div style="display:inline;" id="div-195" class="Functions">{
+	return _ThreadRunning;
+}</div>
+<button class="btn danger singleButton" onclick='trigger("div-196", this);' value="-">-</button><div style="display:inline;" id="div-196" class="Comments">//----&lt; suspend logger &gt;---------------------------------------------</div>
+
+void Logger::pause(bool doPause)
+<button class="btn danger singleButton" onclick='trigger("div-197", this);' value="-">-</button><div style="display:inline;" id="div-197" class="Functions">{
+	if (doPause)
+	{
+		_Paused = true;
+		::SuspendThread(_pThr-&gt;native_handle());
+	}
+	else
+	{
+		_Paused = false;
+		::ResumeThread(_pThr-&gt;native_handle());
+	}
+}</div>
+<button class="btn danger singleButton" onclick='trigger("div-198", this);' value="-">-</button><div style="display:inline;" id="div-198" class="Comments">//----&lt; is logger currently paused? &gt;--------------------------------</div>
+
+bool Logger::paused()
+<button class="btn danger singleButton" onclick='trigger("div-199", this);' value="-">-</button><div style="display:inline;" id="div-199" class="Functions">{
+	return _Paused;
+}</div>
+<button class="btn danger singleButton" onclick='trigger("div-200", this);' value="-">-</button><div style="display:inline;" id="div-200" class="Comments">//----&lt; wait for logging to empty input queue &gt;----------------------</div>
+
+void Logger::flush()
+<button class="btn danger singleButton" onclick='trigger("div-201", this);' value="-">-</button><div style="display:inline;" id="div-201" class="Functions">{
+	if (_ThreadRunning && !_Paused)
+	{
+		while (_queue.size() &gt; 0)
+			;
+		for (auto pStream : _streams)
+			pStream-&gt;flush();
+	}
+}</div>
+
+<button class="btn danger singleButton" onclick='trigger("div-202", this);' value="-">-</button><div style="display:inline;" id="div-202" class="Comments">//----&lt; stop logging &gt;-----------------------------------------------</div>
+
+void Logger::stop(const std::string& msg)
+<button class="btn danger singleButton" onclick='trigger("div-203", this);' value="-">-</button><div style="display:inline;" id="div-203" class="Functions">{
+	if (_ThreadRunning)
+	{
+		if (msg != "")
+			write(msg);
+		write("quit");  <button class="btn danger singleButton" onclick='trigger("div-204", this);' value="-">-</button><div style="display:inline;" id="div-204" class="Comments">// request thread to stop</div>
+		while (_ThreadRunning)
+			<button class="btn danger singleButton" onclick='trigger("div-205", this);' value="-">-</button><div style="display:inline;" id="div-205" class="Comments">/* wait for thread to stop*/</div>
+			;
+	}
+}</div>
+
+<button class="btn danger singleButton" onclick='trigger("div-206", this);' value="-">-</button><div style="display:inline;" id="div-206" class="Comments">//----&lt; wait for logger to finish &gt;----------------------------------</div>
+
+void Logger::wait()
+<button class="btn danger singleButton" onclick='trigger("div-207", this);' value="-">-</button><div style="display:inline;" id="div-207" class="Functions">{
+	if (_ThreadRunning && _pThr-&gt;joinable())
+		_pThr-&gt;join();
+}</div>
+
+<button class="btn danger singleButton" onclick='trigger("div-208", this);' value="-">-</button><div style="display:inline;" id="div-208" class="Comments">//----&lt; stop logging thread &gt;----------------------------------------</div>
+
+Logger::~Logger()
+<button class="btn danger singleButton" onclick='trigger("div-209", this);' value="-">-</button><div style="display:inline;" id="div-209" class="Functions">{
+	stop();
+}</div>
+
+<button class="btn danger singleButton" onclick='trigger("div-210", this);' value="-">-</button><div style="display:inline;" id="div-210" class="Comments">// Commented Common Code</div>
+
+<button class="btn danger singleButton" onclick='trigger("div-211", this);' value="-">-</button><div style="display:inline;" id="div-211" class="Comments">//struct Cosmetic</div>
+<button class="btn danger singleButton" onclick='trigger("div-212", this);' value="-">-</button><div style="display:inline;" id="div-212" class="Comments">//{</div>
+<button class="btn danger singleButton" onclick='trigger("div-213", this);' value="-">-</button><div style="display:inline;" id="div-213" class="Comments">//  ~Cosmetic() { std::cout &lt;&lt; "\n\n"; }</div>
+<button class="btn danger singleButton" onclick='trigger("div-214", this);' value="-">-</button><div style="display:inline;" id="div-214" class="Comments">//} cosmetic;</div>
+
+#ifdef TEST_LOGGER
+
+<button class="btn danger singleButton" onclick='trigger("div-215", this);' value="-">-</button><div style="display:inline;" id="div-215" class="Comments">//using Util = Utilities;</div>
+
+int main()
+<button class="btn danger singleButton" onclick='trigger("div-216", this);' value="-">-</button><div style="display:inline;" id="div-216" class="Functions">{
+	<button class="btn danger singleButton" onclick='trigger("div-217", this);' value="-">-</button><div style="display:inline;" id="div-217" class="Comments">//Util::Title("Testing Logger Class");</div>
+	Logger log;
+	log.attach(&std::cout);
+	log.write("\n  won't get logged - not started yet");
+	log.start();
+	log.title("Testing Logger Class", '=');
+	log.write("\n  one");
+	log.write("\n  two");
+	log.write("\n  fini");
+	log.stop();
+	log.write("\n  won't get logged - stopped");
+	log.start();
+	log.write("\n  starting again");
+	log.write("\n  and stopping again");
+	log.stop("\n  terminating now");
+
+	StaticLogger&lt;1&gt;::attach(&std::cout);
+	StaticLogger&lt;1&gt;::start();
+	StaticLogger&lt;1&gt;::write("\n");
+	StaticLogger&lt;1&gt;::title("Testing StaticLogger class");
+	StaticLogger&lt;1&gt;::write("\n  static logger at work");
+	Logger& logger = StaticLogger&lt;1&gt;::instance();
+	logger.write("\n  static logger still at work");
+	logger.stop("\n  stopping static logger");
+}</div>
+
+#endif
+    </pre>
+  </body>
+</html>

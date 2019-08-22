@@ -1,0 +1,135 @@
+<DOCTYPE !HTML>
+<html>
+  <head>
+    <Title>Cpp11-BlockingQueue.h</Title>
+	   <meta charset="UTF-8"/>
+    <style>
+      body {
+        padding:15px 40px;
+        font-family: Consolas;
+        font-size: 1.25em;
+        font-weight: normal;
+      }
+      </style>
+		 <script src="../script.js"></script>
+		 <link rel="stylesheet" type="text/css" href="../Bootstrap-4/css/bootstrap.min.css" />
+		 <link rel="stylesheet" type="text/css" href="../Bootstrap-4/css/bootstrap-theme.min.css" />
+		 <link href="../style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+      <div class="absolute">           <button class="btn btn-danger all-button" onclick="toggleVisibility('Comments');">Comments</button>           <button class="btn btn-danger all-button" onclick="toggleVisibility('Functions');">Functions</button>           <button class="btn btn-danger all-button" onclick="toggleVisibility('Classes');">Classes</button>		</div>    <pre>
+#ifndef CPP11_BLOCKINGQUEUE_H
+#define CPP11_BLOCKINGQUEUE_H
+<button class="btn danger singleButton" onclick='trigger("div-74", this);' value="-">-</button><div style="display:inline;" id="div-74" class="Comments">///////////////////////////////////////////////////////////////</div>
+<button class="btn danger singleButton" onclick='trigger("div-75", this);' value="-">-</button><div style="display:inline;" id="div-75" class="Comments">// Cpp11-BlockingQueue.h - Thread-safe Blocking Queue        //</div>
+<button class="btn danger singleButton" onclick='trigger("div-76", this);' value="-">-</button><div style="display:inline;" id="div-76" class="Comments">// ver 1.1                                                   //</div>
+<button class="btn danger singleButton" onclick='trigger("div-77", this);' value="-">-</button><div style="display:inline;" id="div-77" class="Comments">// Jim Fawcett, CSE687 - Object Oriented Design, Spring 2015 //</div>
+<button class="btn danger singleButton" onclick='trigger("div-78", this);' value="-">-</button><div style="display:inline;" id="div-78" class="Comments">///////////////////////////////////////////////////////////////</div>
+<button class="btn danger singleButton" onclick='trigger("div-79", this);' value="-">-</button><div style="display:inline;" id="div-79" class="Comments">/*
+ * Package Operations:
+ * -------------------
+ * This package contains one thread-safe class: BlockingQueue&lt;T&gt;.
+ * Its purpose is to support sending messages between threads.
+ * It is implemented using C++11 threading constructs including 
+ * std::condition_variable and std::mutex.  The underlying storage
+ * is provided by the non-thread-safe std::queue&lt;T&gt;.
+ *
+ * Required Files:
+ * ---------------
+ * Cpp11-BlockingQueue.h
+ *
+ * Build Process:
+ * --------------
+ * devenv Cpp11-BlockingQueue.sln /rebuild debug
+ *
+ * Maintenance History:
+ * --------------------
+ * ver 1.1 : 26 Jan 2015
+ * - added copy constructor and assignment operator
+ * ver 1.0 : 03 Mar 2014
+ * - first release
+ *
+ * ToDo:
+ * -----
+ * - add move constructor and move assignment
+ */</div>
+
+#include &lt;condition_variable&gt;
+#include &lt;mutex&gt;
+#include &lt;thread&gt;
+#include &lt;queue&gt;
+#include &lt;string&gt;
+#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+
+template &lt;typename T&gt;
+<button class="btn danger singleButton" onclick='trigger("div-80", this);' value="-">-</button><div style="display:inline;" id="div-80" class="Classes">class BlockingQueue {
+public:
+<button class="btn danger singleButton" onclick='trigger("div-81", this);' value="-">-</button><div style="display:inline;" id="div-81" class="Functions">  BlockingQueue() {}</div>
+  BlockingQueue(const BlockingQueue&lt;T&gt;&);
+  BlockingQueue&lt;T&gt;& operator=(const BlockingQueue&lt;T&gt;&);
+  T deQ();
+  void enQ(const T& t);
+  size_t size();
+private:
+  std::queue&lt;T&gt; q_;
+  std::mutex mtx_;
+  std::condition_variable cv_;
+};</div>
+
+template&lt;typename T&gt;
+BlockingQueue&lt;T&gt;::BlockingQueue(const BlockingQueue&lt;T&gt;& bq) : q_(bq.q_)
+<button class="btn danger singleButton" onclick='trigger("div-82", this);' value="-">-</button><div style="display:inline;" id="div-82" class="Functions">{
+  <button class="btn danger singleButton" onclick='trigger("div-83", this);' value="-">-</button><div style="display:inline;" id="div-83" class="Comments">/* can't copy mutex or condition variable, so use default members */</div>
+}</div>
+
+template&lt;typename T&gt;
+BlockingQueue&lt;T&gt;& BlockingQueue&lt;T&gt;::operator=(const BlockingQueue&lt;T&gt;& bq)
+<button class="btn danger singleButton" onclick='trigger("div-84", this);' value="-">-</button><div style="display:inline;" id="div-84" class="Functions">{
+  if (this == &bq) return *this;
+  q_ = bq.q_;
+  <button class="btn danger singleButton" onclick='trigger("div-85", this);' value="-">-</button><div style="display:inline;" id="div-85" class="Comments">/* can't assign mutex or condition variable so use target's */</div>
+  return *this;
+}</div>
+
+template&lt;typename T&gt;
+T BlockingQueue&lt;T&gt;::deQ()
+<button class="btn danger singleButton" onclick='trigger("div-86", this);' value="-">-</button><div style="display:inline;" id="div-86" class="Functions">{
+  std::unique_lock&lt;std::mutex&gt; l(mtx_);
+  if(q_.size() &gt; 0)
+  {
+    T temp = q_.front();
+    q_.pop();
+    return temp;
+  }
+  <button class="btn danger singleButton" onclick='trigger("div-87", this);' value="-">-</button><div style="display:inline;" id="div-87" class="Comments">// may have spurious returns so loop on !condition</div>
+
+  while (q_.size() == 0)
+    cv_.wait(l, [this] () { return q_.size() &gt; 0; });
+  T temp = q_.front();
+  q_.pop();
+  return temp;
+}</div>
+
+template&lt;typename T&gt;
+void BlockingQueue&lt;T&gt;::enQ(const T& t)
+<button class="btn danger singleButton" onclick='trigger("div-88", this);' value="-">-</button><div style="display:inline;" id="div-88" class="Functions">{
+  {
+    std::lock_guard&lt;std::mutex&gt; l(mtx_);
+    q_.push(t);
+  }
+  cv_.notify_one();
+}</div>
+
+template&lt;typename T&gt;
+size_t BlockingQueue&lt;T&gt;::size()
+<button class="btn danger singleButton" onclick='trigger("div-89", this);' value="-">-</button><div style="display:inline;" id="div-89" class="Functions">{
+  std::lock_guard&lt;std::mutex&gt; l(mtx_);
+  return q_.size();
+}</div>
+
+#endif
+    </pre>
+  </body>
+</html>

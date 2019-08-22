@@ -1,0 +1,49 @@
+﻿<!-- 
+////////////////////////////////////////////////////////////////////////////////
+//  CodePopUp.xaml - Functionality to pop up a window                         //
+//  ver 1.0																	  //
+//  Language:      .NET, C#, Visual Studio 2017							      //
+//  Platform:      Dell XPS, Windows 10     								  //
+//  Application:   Helper for WPF application for CSE687 - OOD Project 3	  //
+//  Author:		   Vinayak Kukreja, Syracuse University						  //
+////////////////////////////////////////////////////////////////////////////////
+*  Package Operations:
+* =======================
+*  This package defines a pop up window that is a helper for our WPF application
+*
+*  Required Files:
+* =======================
+*  CodePopUp.xaml CodePopUp.xaml.cs
+*
+*  Maintainence History:
+* =======================
+*  ver 1.0 - 10 April 2019
+*  - Author   
+-->
+
+<!-- Root Window Begins -->
+<Window x:Class="CodePublisherClient.CodePopUp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CodePublisherClient"
+        mc:Ignorable="d"
+        Title="Code Pop Up Window" Height="450" Width="800">
+
+    <!-- Grid Layout Begins -->
+    <Grid>
+        <!-- Border Begins -->
+        <Border>
+            <!-- Scroll Viewer -->
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <!-- Text-Block -->
+                <TextBlock x:Name="codeView" FontFamily="consolas" FontSize="18" Padding="15"></TextBlock>
+            </ScrollViewer>
+            <!--  Border Ends -->
+        </Border>
+        <!-- Grid Layout Ends -->
+    </Grid>
+
+    <!-- Root Window Ends -->
+</Window>

@@ -1,0 +1,115 @@
+<DOCTYPE !HTML>
+<html>
+  <head>
+    <Title>Logger.h</Title>
+	   <meta charset="UTF-8"/>
+    <style>
+      body {
+        padding:15px 40px;
+        font-family: Consolas;
+        font-size: 1.25em;
+        font-weight: normal;
+      }
+      </style>
+		 <script src="../script.js"></script>
+		 <link rel="stylesheet" type="text/css" href="../Bootstrap-4/css/bootstrap.min.css" />
+		 <link rel="stylesheet" type="text/css" href="../Bootstrap-4/css/bootstrap-theme.min.css" />
+		 <link href="../style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+      <div class="absolute">           <button class="btn btn-danger all-button" onclick="toggleVisibility('Comments');">Comments</button>           <button class="btn btn-danger all-button" onclick="toggleVisibility('Functions');">Functions</button>           <button class="btn btn-danger all-button" onclick="toggleVisibility('Classes');">Classes</button>		</div><br /><div>    <h1><u>Dependencies:</u> <br /><br />
+      <a href="Cpp11-BlockingQueue.h.html"><h3><i>Cpp11-BlockingQueue.h</i></h3></a>    
+    </h1></div><br /><br />    <pre>
+#ifndef LOGGER_H
+#define LOGGER_H
+<button class="btn danger singleButton" onclick='trigger("div-120", this);' value="-">-</button><div style="display:inline;" id="div-120" class="Comments">/////////////////////////////////////////////////////////////////////</div>
+<button class="btn danger singleButton" onclick='trigger("div-121", this);' value="-">-</button><div style="display:inline;" id="div-121" class="Comments">// Logger.h - log text messages to std::ostream                    //</div>
+<button class="btn danger singleButton" onclick='trigger("div-122", this);' value="-">-</button><div style="display:inline;" id="div-122" class="Comments">// ver 1.0                                                         //</div>
+<button class="btn danger singleButton" onclick='trigger("div-123", this);' value="-">-</button><div style="display:inline;" id="div-123" class="Comments">//-----------------------------------------------------------------//</div>
+<button class="btn danger singleButton" onclick='trigger("div-124", this);' value="-">-</button><div style="display:inline;" id="div-124" class="Comments">// Jim Fawcett (c) copyright 2015                                  //</div>
+<button class="btn danger singleButton" onclick='trigger("div-125", this);' value="-">-</button><div style="display:inline;" id="div-125" class="Comments">// All rights granted provided this copyright notice is retained   //</div>
+<button class="btn danger singleButton" onclick='trigger("div-126", this);' value="-">-</button><div style="display:inline;" id="div-126" class="Comments">//-----------------------------------------------------------------//</div>
+<button class="btn danger singleButton" onclick='trigger("div-127", this);' value="-">-</button><div style="display:inline;" id="div-127" class="Comments">// Language:    C++, Visual Studio 2015                            //</div>
+<button class="btn danger singleButton" onclick='trigger("div-128", this);' value="-">-</button><div style="display:inline;" id="div-128" class="Comments">// Application: Several Projects, CSE687 - Object Oriented Design  //</div>
+<button class="btn danger singleButton" onclick='trigger("div-129", this);' value="-">-</button><div style="display:inline;" id="div-129" class="Comments">// Author:      Jim Fawcett, Syracuse University, CST 4-187        //</div>
+<button class="btn danger singleButton" onclick='trigger("div-130", this);' value="-">-</button><div style="display:inline;" id="div-130" class="Comments">//              jfawcett@twcny.rr.com                              //</div>
+<button class="btn danger singleButton" onclick='trigger("div-131", this);' value="-">-</button><div style="display:inline;" id="div-131" class="Comments">/////////////////////////////////////////////////////////////////////</div>
+<button class="btn danger singleButton" onclick='trigger("div-132", this);' value="-">-</button><div style="display:inline;" id="div-132" class="Comments">/*
+* Package Operations:
+* -------------------
+* This package supports logging for multiple concurrent clients to a
+* single std::ostream.  It does this be enqueuing messages in a
+* blocking queue and dequeuing with a single thread that writes to
+* the std::ostream.
+*
+* Build Process:
+* --------------
+* Required Files: Logger.h, Logger.cpp, Utilities.h, Utilities.cpp
+*
+* Build Command: devenv logger.sln /rebuild debug
+*
+* Maintenance History:
+* --------------------
+* ver 1.0 : 22 Feb 2016
+* - first release
+*
+* Planned Additions and Changes:
+* ------------------------------
+* - none yet
+*/</div>
+
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;thread&gt;
+#include "Cpp11-BlockingQueue.h"
+
+class Logger
+<button class="btn danger singleButton" onclick='trigger("div-133", this);' value="-">-</button><div style="display:inline;" id="div-133" class="Classes">{
+public:
+<button class="btn danger singleButton" onclick='trigger("div-134", this);' value="-">-</button><div style="display:inline;" id="div-134" class="Functions">  Logger() {}</div>
+  void attach(std::ostream* pOut);
+  void start();
+  void stop(const std::string& msg = "");
+  void write(const std::string& msg);
+  void flush();
+  void title(const std::string& msg, char underline = '-');
+  ~Logger();
+  Logger(const Logger&) = delete;
+  Logger& operator=(const Logger&) = delete;
+private:
+  std::thread* _pThr;
+  std::ostream* _pOut;
+  BlockingQueue&lt;std::string&gt; _queue;
+  bool _ThreadRunning = false;
+};</div>
+
+template&lt;int i&gt;
+class StaticLogger
+<button class="btn danger singleButton" onclick='trigger("div-135", this);' value="-">-</button><div style="display:inline;" id="div-135" class="Classes">{
+public:
+<button class="btn danger singleButton" onclick='trigger("div-136", this);' value="-">-</button><div style="display:inline;" id="div-136" class="Functions">  static void attach(std::ostream* pOut) { _logger.attach(pOut); }</div>
+<button class="btn danger singleButton" onclick='trigger("div-137", this);' value="-">-</button><div style="display:inline;" id="div-137" class="Functions">  static void start() { _logger.start(); }</div>
+<button class="btn danger singleButton" onclick='trigger("div-138", this);' value="-">-</button><div style="display:inline;" id="div-138" class="Functions">  static void stop(const std::string& msg="") { _logger.stop(msg); }</div>
+<button class="btn danger singleButton" onclick='trigger("div-139", this);' value="-">-</button><div style="display:inline;" id="div-139" class="Functions">  static void write(const std::string& msg) { _logger.write(msg); }</div>
+<button class="btn danger singleButton" onclick='trigger("div-140", this);' value="-">-</button><div style="display:inline;" id="div-140" class="Functions">  static void flush() { _logger.flush(); }</div>
+<button class="btn danger singleButton" onclick='trigger("div-141", this);' value="-">-</button><div style="display:inline;" id="div-141" class="Functions">  static void title(const std::string& msg, char underline = '-') { _logger.title(msg, underline); }</div>
+<button class="btn danger singleButton" onclick='trigger("div-142", this);' value="-">-</button><div style="display:inline;" id="div-142" class="Functions">  static Logger& instance() { return _logger; }</div>
+  StaticLogger(const StaticLogger&) = delete;
+  StaticLogger& operator=(const StaticLogger&) = delete;
+private:
+  static Logger _logger;
+};</div>
+
+template&lt;int i&gt;
+Logger StaticLogger&lt;i&gt;::_logger;
+
+struct Cosmetic
+{
+<button class="btn danger singleButton" onclick='trigger("div-143", this);' value="-">-</button><div style="display:inline;" id="div-143" class="Functions">  ~Cosmetic() { std::cout &lt;&lt; "\n\n"; }</div>
+};
+
+#endif
+    </pre>
+  </body>
+</html>

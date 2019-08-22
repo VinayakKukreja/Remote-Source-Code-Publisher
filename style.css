@@ -1,0 +1,60 @@
+body
+{
+	font-weight: bold;
+	color:  orange;
+	background-color: #F0EDE5;
+}
+
+pre{
+	color:  #00539C;
+}
+.Comments
+{
+	color: #CE3175;
+}
+
+.all-text
+{
+	color: #F96714;
+}
+
+.Functions
+{
+	color: #F2552C;
+}
+
+.Classes
+{
+	color: #00A591;
+}
+
+.absolute
+{
+	position:  fixed;
+	top:  0;
+	right:  0;
+}
+
+.singleButton {
+  border: 2px solid black;
+  background-color: white;
+  color: black;
+  width: 25px;
+	height: 25px;
+    padding-top: 0px;
+  	padding-right: 15px;
+  	padding-bottom: 15px;
+  	padding-left: 7px;
+  cursor: pointer;
+}
+
+/* Red */
+.danger {
+  border-color: #f44336;
+  color: red
+}
+
+.danger:hover {
+  background: #f44336;
+  color: white;
+}

@@ -1,0 +1,205 @@
+<DOCTYPE !HTML>
+<html>
+  <head>
+    <Title>StringUtilities.h</Title>
+	   <meta charset="UTF-8"/>
+    <style>
+      body {
+        padding:15px 40px;
+        font-family: Consolas;
+        font-size: 1.25em;
+        font-weight: normal;
+      }
+      </style>
+		 <script src="../script.js"></script>
+		 <link rel="stylesheet" type="text/css" href="../Bootstrap-4/css/bootstrap.min.css" />
+		 <link rel="stylesheet" type="text/css" href="../Bootstrap-4/css/bootstrap-theme.min.css" />
+		 <link href="../style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+      <div class="absolute">           <button class="btn btn-danger all-button" onclick="toggleVisibility('Comments');">Comments</button>           <button class="btn btn-danger all-button" onclick="toggleVisibility('Functions');">Functions</button>           <button class="btn btn-danger all-button" onclick="toggleVisibility('Classes');">Classes</button>		</div>    <pre>
+#ifndef STRINGUTILITIES_H
+#define STRINGUTILITIES_H
+<button class="btn danger singleButton" onclick='trigger("div-252", this);' value="-">-</button><div style="display:inline;" id="div-252" class="Comments">///////////////////////////////////////////////////////////////////////</div>
+<button class="btn danger singleButton" onclick='trigger("div-253", this);' value="-">-</button><div style="display:inline;" id="div-253" class="Comments">// StringUtilities.h - small, generally useful, helper classes       //</div>
+<button class="btn danger singleButton" onclick='trigger("div-254", this);' value="-">-</button><div style="display:inline;" id="div-254" class="Comments">// ver 1.0                                                           //</div>
+<button class="btn danger singleButton" onclick='trigger("div-255", this);' value="-">-</button><div style="display:inline;" id="div-255" class="Comments">// Language:    C++, Visual Studio 2017                              //</div>
+<button class="btn danger singleButton" onclick='trigger("div-256", this);' value="-">-</button><div style="display:inline;" id="div-256" class="Comments">// Application: Most Projects, CSE687 - Object Oriented Design       //</div>
+<button class="btn danger singleButton" onclick='trigger("div-257", this);' value="-">-</button><div style="display:inline;" id="div-257" class="Comments">// Author:      Ammar Salman, Syracuse University                    //</div>
+<button class="btn danger singleButton" onclick='trigger("div-258", this);' value="-">-</button><div style="display:inline;" id="div-258" class="Comments">//              assalman@syr.edu                                     //</div>
+<button class="btn danger singleButton" onclick='trigger("div-259", this);' value="-">-</button><div style="display:inline;" id="div-259" class="Comments">// Source:      Jim Fawcett, Syracuse University, CST 4-187          //</div>
+<button class="btn danger singleButton" onclick='trigger("div-260", this);' value="-">-</button><div style="display:inline;" id="div-260" class="Comments">//              jfawcett@twcny.rr.com                                //</div>
+<button class="btn danger singleButton" onclick='trigger("div-261", this);' value="-">-</button><div style="display:inline;" id="div-261" class="Comments">///////////////////////////////////////////////////////////////////////</div>
+<button class="btn danger singleButton" onclick='trigger("div-262", this);' value="-">-</button><div style="display:inline;" id="div-262" class="Comments">/*
+* Package Operations:
+* -------------------
+* This package provides functions:
+* - Title(text)           display title
+* - title(text)           display subtitle
+* - putline(n)            display n newlines
+* - trim(str)             remove leading and trailing whitespace
+* - split(str, 'delim')   break string into vector of strings separated by delim char
+* - showSplit(vector)     display splits
+* - sToW(str)             convert std::string to std::wstring
+* - wToS(wstr)            convert std::wstring to std::string
+*
+* Required Files:
+* ---------------
+*   StringUtilities.h
+*
+* Maintenance History:
+* --------------------
+* ver 1.1 : 11 Feb 2019
+* - added string conversion functions (moved from Process.h)
+* ver 1.0 : 12 Jan 2018
+* - first release
+* - refactored from earlier Utilities.h
+*
+* Notes:
+* ------
+* - Designed to provide all functionality in header file.
+* - Implementation file only needed for test and demo.
+*
+* Planned Additions and Changes:
+* ------------------------------
+* - none yet
+*/</div>
+#include &lt;string&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+#include &lt;functional&gt;
+#include &lt;locale&gt;
+
+namespace Utilities
+{
+	<button class="btn danger singleButton" onclick='trigger("div-263", this);' value="-">-</button><div style="display:inline;" id="div-263" class="Comments">/////////////////////////////////////////////////////////////////////</div>
+	<button class="btn danger singleButton" onclick='trigger("div-264", this);' value="-">-</button><div style="display:inline;" id="div-264" class="Comments">// String Helper functions</div>
+
+	<button class="btn danger singleButton" onclick='trigger("div-265", this);' value="-">-</button><div style="display:inline;" id="div-265" class="Comments">//----&lt; display underlined title &gt;-----------------------------------</div>
+
+	inline void Title(const std::string& text, std::ostream& out = std::cout, char underline = '=')
+<button class="btn danger singleButton" onclick='trigger("div-266", this);' value="-">-</button><div style="display:inline;" id="div-266" class="Functions">	{
+		out &lt;&lt; "\n  " &lt;&lt; text;
+		out &lt;&lt; "\n " &lt;&lt; std::string(text.size() + 2, underline);
+	}</div>
+	<button class="btn danger singleButton" onclick='trigger("div-267", this);' value="-">-</button><div style="display:inline;" id="div-267" class="Comments">//----&lt; display underlined subtitle &gt;--------------------------------</div>
+
+	inline void title(const std::string& text, std::ostream& out = std::cout, char underline = '-')
+<button class="btn danger singleButton" onclick='trigger("div-268", this);' value="-">-</button><div style="display:inline;" id="div-268" class="Functions">	{
+		out &lt;&lt; "\n  " &lt;&lt; text;
+		out &lt;&lt; "\n " &lt;&lt; std::string(text.size() + 2, underline);
+	}</div>
+	<button class="btn danger singleButton" onclick='trigger("div-269", this);' value="-">-</button><div style="display:inline;" id="div-269" class="Comments">//----&lt; display j newlines &gt;-----------------------------------------</div>
+
+	inline void putline(size_t j = 1, std::ostream& out = std::cout)
+<button class="btn danger singleButton" onclick='trigger("div-270", this);' value="-">-</button><div style="display:inline;" id="div-270" class="Functions">	{
+		for (size_t i = 0; i &lt; j; ++i)
+			out &lt;&lt; "\n";
+	}</div>
+	<button class="btn danger singleButton" onclick='trigger("div-271", this);' value="-">-</button><div style="display:inline;" id="div-271" class="Comments">/*--- remove whitespace from front and back of string argument ---*/</div>
+	<button class="btn danger singleButton" onclick='trigger("div-272", this);' value="-">-</button><div style="display:inline;" id="div-272" class="Comments">/*
+	*  - does not remove newlines
+	*/</div>
+	template &lt;typename T&gt;
+	inline std::basic_string&lt;T&gt; trim(const std::basic_string&lt;T&gt;& toTrim)
+<button class="btn danger singleButton" onclick='trigger("div-273", this);' value="-">-</button><div style="display:inline;" id="div-273" class="Functions">	{
+		if (toTrim.size() == 0)
+			return toTrim;
+		std::basic_string&lt;T&gt; temp;
+		std::locale loc;
+		typename std::basic_string&lt;T&gt;::const_iterator iter = toTrim.begin();
+		while (isspace(*iter, loc) && *iter != '\n')
+		{
+			if (++iter == toTrim.end())
+			{
+				break;
+			}
+		}
+		for (; iter != toTrim.end(); ++iter)
+		{
+			temp += *iter;
+		}
+		typename std::basic_string&lt;T&gt;::reverse_iterator riter;
+		size_t pos = temp.size();
+		for (riter = temp.rbegin(); riter != temp.rend(); ++riter)
+		{
+			--pos;
+			if (!isspace(*riter, loc) || *riter == '\n')
+			{
+				break;
+			}
+		}
+		if (0 &lt;= pos && pos &lt; temp.size())
+			temp.erase(++pos);
+		return temp;
+	}</div>
+
+	<button class="btn danger singleButton" onclick='trigger("div-274", this);' value="-">-</button><div style="display:inline;" id="div-274" class="Comments">/*--- split sentinel separated strings into a vector of trimmed strings ---*/</div>
+
+	template &lt;typename T&gt;
+	inline std::vector&lt;std::basic_string&lt;T&gt;&gt; split(const std::basic_string&lt;T&gt;& toSplit, T splitOn = ',')
+<button class="btn danger singleButton" onclick='trigger("div-275", this);' value="-">-</button><div style="display:inline;" id="div-275" class="Functions">	{
+		std::vector&lt;std::basic_string&lt;T&gt;&gt; splits;
+		std::basic_string&lt;T&gt; temp;
+		typename std::basic_string&lt;T&gt;::const_iterator iter;
+		for (iter = toSplit.begin(); iter != toSplit.end(); ++iter)
+		{
+			if (*iter != splitOn)
+			{
+				temp += *iter;
+			}
+			else
+			{
+				splits.push_back(trim(temp));
+				temp.clear();
+			}
+		}
+		if (temp.length() &gt; 0)
+			splits.push_back(trim(temp));
+		return splits;
+	}</div>
+	<button class="btn danger singleButton" onclick='trigger("div-276", this);' value="-">-</button><div style="display:inline;" id="div-276" class="Comments">/*--- show collection of string splits ------------------------------------*/</div>
+
+	template &lt;typename T&gt;
+	inline void showSplits(const std::vector&lt;std::basic_string&lt;T&gt;&gt;& splits, std::ostream& out = std::cout)
+<button class="btn danger singleButton" onclick='trigger("div-277", this);' value="-">-</button><div style="display:inline;" id="div-277" class="Functions">	{
+		out &lt;&lt; "\n";
+		for (auto item : splits)
+		{
+			if (item == "\n")
+				out &lt;&lt; "\n--" &lt;&lt; "newline";
+			else
+				out &lt;&lt; "\n--" &lt;&lt; item;
+		}
+		out &lt;&lt; "\n";
+	}</div>
+
+	<button class="btn danger singleButton" onclick='trigger("div-278", this);' value="-">-</button><div style="display:inline;" id="div-278" class="Comments">//----&lt; helper function to convert strings &gt;---------------------------</div>
+
+	inline std::string wToS(const std::wstring& ws)
+<button class="btn danger singleButton" onclick='trigger("div-279", this);' value="-">-</button><div style="display:inline;" id="div-279" class="Functions">	{
+		std::string conv;
+		for (size_t i = 0; i &lt; ws.size() - 1; i++)
+		{
+			conv.push_back(static_cast&lt;char&gt;(ws[i]));
+		}
+		return conv;
+	}</div>
+	<button class="btn danger singleButton" onclick='trigger("div-280", this);' value="-">-</button><div style="display:inline;" id="div-280" class="Comments">//----&lt; helper function to convert strings &gt;---------------------------</div>
+
+	inline std::wstring sToW(const std::string& s)
+<button class="btn danger singleButton" onclick='trigger("div-281", this);' value="-">-</button><div style="display:inline;" id="div-281" class="Functions">	{
+		std::wstring conv;
+		for (auto ch : s)
+		{
+			conv.push_back(static_cast&lt;wchar_t&gt;(ch));
+		}
+		return conv;
+	}</div>
+}
+#endif
+    </pre>
+  </body>
+</html>

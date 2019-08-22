@@ -1,0 +1,1 @@
+devenv RemoteCodePageManagement.sln /rebuild debug
